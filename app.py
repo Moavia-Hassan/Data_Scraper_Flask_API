@@ -36,6 +36,8 @@ def search_articles(df, keyword, threshold=60):
                     'url': row['url'],
                     'reading_time': int(row['reading_time']) if pd.notnull(row['reading_time']) else 0,
                     'claps': int(row['claps']) if pd.notnull(row['claps']) else 0,
+                    'content': row['content'] if pd.notnull(row['content']) else '',
+                    'date': str(row['date']) if pd.notnull(row['date']) else '',
                     'match_score': ratio
                 })
         

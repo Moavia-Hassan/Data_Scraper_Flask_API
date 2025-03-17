@@ -28,14 +28,24 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
         }
         
         // Display results
-        resultsDiv.innerHTML = data.results.map(article => `
+        resultsDiv.innerHTML = data.results.map(article => {
+            // Create a clean version of the article for display
+            const displayArticle = {
+                title: article.title,
+                author: article.author,
+                url: article.url,
+                reading_time: article.reading_time,
+                claps: article.claps,
+                date: article.date,
+                match_score: article.match_score
+            };
+            
+            return `
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card">
                     <div class="card-body">
                         <span class="match-score">${article.match_score}% match</span>
                         <h5 class="card-title" title="${escapeHtml(article.title)}">${escapeHtml(article.title)}</h5>
-                        ${article.subtitle && article.subtitle !== 'nan' ? 
-                          `<p class="card-text text-muted mb-3">${escapeHtml(article.subtitle)}</p>` : ''}
                         <div class="article-meta">
                             <div class="mb-2">
                                 <i class="fas fa-user-edit"></i> ${escapeHtml(article.author)}
@@ -49,13 +59,18 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
                                 </span>
                             </div>
                         </div>
-                        <a href="${article.url}" target="_blank" class="btn btn-primary btn-sm w-100 btn-read-article">
-                            Read Article <i class="fas fa-external-link-alt ms-1"></i>
-                        </a>
+                        <div class="btn-group w-100 mt-3" role="group">
+                            <a href="${article.url}" target="_blank" class="btn btn-primary btn-sm">
+                                Read Article <i class="fas fa-external-link-alt ms-1"></i>
+                            </a>
+                            <button onclick='downloadArticleData(${JSON.stringify(displayArticle).replace(/'/g, "&#39;")})' class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-download"></i> JSON
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
         
     } catch (error) {
         console.error('Search error:', error); // Debug log
@@ -107,4 +122,18 @@ function formatClaps(claps) {
         return `${(numClaps / 1000).toFixed(1)}K claps`;
     }
     return `${numClaps} claps`;
+}
+
+// Add download functionality
+function downloadArticleData(article) {
+    const dataStr = JSON.stringify(article, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', `${article.title.substring(0, 30).replace(/[^a-z0-9]/gi, '_')}.json`);
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
 }
