@@ -2,6 +2,11 @@
 
 A Flask-based web application that allows users to search through Medium articles using a modern, responsive interface.
 
+## Live Demo
+
+The application is deployed and accessible at:
+[https://data-scraper-flask-api.vercel.app/](https://data-scraper-flask-api.vercel.app/)
+
 ## Project Overview
 
 This project consists of two main parts:
@@ -37,8 +42,10 @@ This project consists of two main parts:
 
 ```
 ├── app.py                      # Flask application
-├── medium_articles_full.csv    # Scraped articles data
+├── data/
+│   └── medium_articles_full.csv # Scraped articles data
 ├── requirements.txt            # Python dependencies
+├── vercel.json                # Vercel deployment configuration
 ├── static/                     # Static assets
 │   ├── script.js              # Frontend JavaScript
 │   └── style.css              # CSS styles
@@ -46,7 +53,7 @@ This project consists of two main parts:
     └── index.html             # Main search page
 ```
 
-## Setup and Installation
+## Local Development
 
 1. Install dependencies:
 ```bash
@@ -60,6 +67,16 @@ python app.py
 
 3. Access the application at:
 - http://localhost:5000
+
+## Deployment
+
+The application is deployed on Vercel. To deploy your own instance:
+
+1. Fork this repository
+2. Sign up on [Vercel](https://vercel.com)
+3. Import your forked repository
+4. Vercel will automatically detect it as a Python project
+5. The deployment will use the configuration in `vercel.json`
 
 ## API Endpoints
 
@@ -84,3 +101,4 @@ python app.py
 - Data Storage: CSV
 - UI Framework: Bootstrap 5
 - Icons: Font Awesome
+- Deployment: Vercel
