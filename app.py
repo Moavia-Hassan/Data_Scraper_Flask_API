@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 def load_articles():
     try:
-        df = pd.read_csv('medium_articles_full.csv')
+        df = pd.read_csv('data/medium_articles_full.csv')
         df = df.fillna({
             'title': '',
             'author': 'Unknown Author',
